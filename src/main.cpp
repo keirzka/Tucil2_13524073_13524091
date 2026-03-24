@@ -1,6 +1,7 @@
 #include <iostream>
 #include "parser.hpp"
 #include "geometry.hpp"
+#include "octree.hpp"
 
 int main(int argc, char *argv[])
 {
@@ -42,5 +43,26 @@ int main(int argc, char *argv[])
               << " (should equal " << sideY
               << " and " << sideZ << ")\n";
 
+    std::vector<int> nodeCount(maxDepth + 1, 0);
+    std::vector<int> pruneCount(maxDepth + 1, 0);
+
+    OctreeNode *root = buildOctree(
+        parsed.triangles,
+        bounds,
+        0,
+        maxDepth,
+        nodeCount.data(),
+        pruneCount.data());
+
+    // print statistik
+    std::cout << "\nOctree Statistics:\n";
+    for (int i = 0; i <= maxDepth; i++)
+    {
+        std::cout << "Depth " << i
+                  << " | nodes: " << nodeCount[i]
+                  << " | pruned: " << pruneCount[i] << "\n";
+    }
+
+    delete root;
     return 0;
 }
