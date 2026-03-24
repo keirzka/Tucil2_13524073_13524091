@@ -91,4 +91,6 @@ OctreeNode *buildOctree(
             nodeCount,
             pruneCount);
     }
+
+    return node;
 }
