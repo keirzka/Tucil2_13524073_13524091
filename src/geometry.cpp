@@ -31,11 +31,12 @@ AABB computeBounds(const std::vector<vec3> &vertices)
         {center.x + half, center.y + half, center.z + half}};
 }
 
-// helper triangleIntersectsAABB
+// helper triangleIntersectsAABB, implementasi separating axis theorem (SAT)
 static bool overlapOnAxis(
     const vec3 &v0, const vec3 &v1, const vec3 &v2,
     const vec3 &half, const vec3 &axis)
 {
+    // proyeksi vertex ke sumbu
     float p0 = v0.x * axis.x + v0.y * axis.y + v0.z * axis.z;
     float p1 = v1.x * axis.x + v1.y * axis.y + v1.z * axis.z;
     float p2 = v2.x * axis.x + v2.y * axis.y + v2.z * axis.z;
@@ -58,6 +59,10 @@ static vec3 cross(const vec3 &a, const vec3 &b)
         a.x * b.y - a.y * b.x};
 }
 
+// cari intersect untuk bantu bagian rekursi nanti.
+// false -> nodenya merupakan ruang kosong sehingga bisa dipruning
+// true dan depth < maxDepth -> node harus dipecah lagi (rekursi)
+// trua dan depth == maxDepth -> leaf voxel (rekursi berhenti)
 bool triangleIntersectsAABB(const Triangle &tri, const AABB &box)
 {
     vec3 center = aabb_center(box);
