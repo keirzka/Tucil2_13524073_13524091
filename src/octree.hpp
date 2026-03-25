@@ -1,5 +1,6 @@
 #pragma once
 #include "geometry.hpp"
+#include <atomic>
 
 class OctreeNode
 {
@@ -18,5 +19,5 @@ OctreeNode *buildOctree(
     const AABB &bounds,
     int depth,
     int maxDepth,
-    int *nodeCount,
-    int *pruneCount);
+    std::atomic<int> *nodeCount,
+    std::atomic<int> *pruneCount);

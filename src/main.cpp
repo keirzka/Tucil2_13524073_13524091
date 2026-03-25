@@ -4,6 +4,7 @@
 #include "octree.hpp"
 #include "writer.hpp"
 #include <chrono>
+#include <atomic>
 
 int main()
 {
@@ -56,8 +57,8 @@ int main()
               << " (should equal " << sideY
               << " and " << sideZ << ")\n";
 
-    std::vector<int> nodeCount(maxDepth + 1, 0);
-    std::vector<int> pruneCount(maxDepth + 1, 0);
+    std::vector<std::atomic<int>> nodeCount(maxDepth + 1, 0);
+    std::vector<std::atomic<int>> pruneCount(maxDepth + 1, 0);
 
     // Start Timer
     auto start = std::chrono::high_resolution_clock::now();

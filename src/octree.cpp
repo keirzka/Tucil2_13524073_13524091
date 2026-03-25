@@ -21,8 +21,8 @@ OctreeNode *buildOctree(
     const AABB &bounds,
     int depth,
     int maxDepth,
-    int *nodeCount,
-    int *pruneCount);
+    std::atomic<int> *nodeCount,
+    std::atomic<int> *pruneCount);
 
 // memotong node kubus jadi 8 node anak kubus
 static std::vector<AABB> subdivide(const AABB &box)
