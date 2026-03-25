@@ -9,15 +9,15 @@
 int main()
 {
     // Input file objek
-    string fileName;
+    std::string fileName;
     std::cout << "Masukkan nama file objek (.obj) pada path ../test/Objek/ : ";
     std::cin >> fileName;
-    string filePath = "../test/Objek/" + fileName;
+    std::string filePath = "../test/Objek/" + fileName;
 
     // validasi keberadaan file input
-    ifstream fileCheck(filePath);
+    std::ifstream fileCheck(filePath);
     if (!fileCheck.is_open()) {
-        cerr << "Error: Tidak ditemukan file " << fileName << endl;
+        std::cerr << "Error: Tidak ditemukan file " << fileName << std::endl;
         return 1;
     }
     fileCheck.close();
@@ -99,27 +99,29 @@ int main()
 
     // ============ CLI Output ==============
     std::cout << "\n=============== HASIL VOXELIZATION OBJEK ===============\n";
-    std::cout << "Jumlah voxel yang terbentuk : " << voxelCount << " voxel" << endl;
-    std::cout << "Jumlah vertex yang terbentuk : " << vertexCount << " vertex" <<  endl;
-    std::cout << "Jumlah faces yang terbentuk : " << faceCount << " faces" << endl << endl;
-    std::cout << "Statistik Node Octree : " << endl;
+    std::cout << "Jumlah voxel yang terbentuk : " << voxelCount << " voxel" << std::endl;
+    std::cout << "Jumlah vertex yang terbentuk : " << vertexCount << " vertex" << std::endl;
+    std::cout << "Jumlah faces yang terbentuk : " << faceCount << " faces" << std::endl
+              << std::endl;
+    std::cout << "Statistik Node Octree : " << std::endl;
     for (int i = 0; i <= maxDepth; i++){
-        std::cout << "Depth-" << i << " : " << nodeCount[i] << " node" << endl;
+        std::cout << "Depth-" << i << " : " << nodeCount[i] << " node" << std::endl;
     }
 
-    std::cout << endl;
+    std::cout << std::endl;
 
-    std::cout << "Statistik Node Octree Pruned : " << endl;
-        for (int i = 0; i < maxDepth; i++){
-        std::cout << "Depth-" << i << " : " << pruneCount[i] << " node pruned" << endl;
+    std::cout << "Statistik Node Octree Pruned : " << std::endl;
+    for (int i = 0; i < maxDepth; i++)
+    {
+        std::cout << "Depth-" << i << " : " << pruneCount[i] << " node pruned" << std::endl;
     }
 
-    std::cout << endl;
+    std::cout << std::endl;
 
-    std::cout << "Kedalaman octree : " << maxDepth << endl;
-    std::cout << "Processing time : " << duration << " seconds" << endl;
-    std::cout << "Output objek berhasil disimpan pada file : " << outputPath << endl;
-    
+    std::cout << "Kedalaman octree : " << maxDepth << std::endl;
+    std::cout << "Processing time : " << duration << " seconds" << std::endl;
+    std::cout << "Output objek berhasil disimpan pada file : " << outputPath << std::endl;
+
     delete root;
     return 0;
 }
