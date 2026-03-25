@@ -50,10 +50,10 @@ Berikan masukan nama file objek yang akan dilakukan voxelization dengan format o
 Notes : pastikan file objek berada di path yang benar (test/Objek)
 
 # Identitas Author
-1. Anggota 1
-   Nama : Keisha Rizka Syofyani
+1. Anggota 1  
+   Nama : Keisha Rizka Syofyani  
    NIM : 13524073
    
-3. Anggota 2
-   Nama : Vara Azzara Ramli Pulukadang
-   NIM : 13524091
+3. Anggota 2  
+   Nama : Vara Azzara Ramli Pulukadang  
+   NIM : 13524091  
