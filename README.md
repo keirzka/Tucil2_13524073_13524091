@@ -18,11 +18,11 @@ Program akan:
 Sebagai optimasi, program juga mengimplementasikan concurrency (multithreading) menggunakan std::async untuk mempercepat proses subdivisi octree.
 
 # Requirement Program
-Bahasa & Compiler
-C++ (minimal C++11, disarankan C++17)
-Compiler:
-GCC / G++ (MinGW / Linux / WSL)
-🔹 Library yang Digunakan
+Bahasa & Compiler  
+C++ (minimal C++11, disarankan C++17)  
+Compiler:  
+GCC / G++ (MinGW / Linux / WSL)  
+🔹 Library yang Digunakan  
 Standard C++ Library:
 ```
 <vector>
@@ -31,9 +31,9 @@ Standard C++ Library:
 <chrono>
 <future>
 ```
-🔹 Sistem Operasi
-Windows (MinGW / PowerShell / CMD)
-Linux / WSL (opsional)
+🔹 Sistem Operasi  
+Windows (MinGW / PowerShell / CMD)  
+Linux / WSL (opsional)  
 
 # Cara Kompilasi Program
 Jalankan perintah berikut di terminal pada folder src:
