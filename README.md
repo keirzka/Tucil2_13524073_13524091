@@ -3,7 +3,7 @@ Program ini merupakan implementasi algoritma Divide and Conquer untuk melakukan 
 
 Input berupa file .obj yang berisi:
 
-v x y z → vertex (titik 3D)
+v x y z → vertex (titik 3D)  
 f i j k → face (segitiga)
 
 Program akan:
