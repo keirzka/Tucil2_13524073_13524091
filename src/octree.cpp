@@ -1,5 +1,8 @@
 #include "octree.hpp"
 #include "geometry.hpp"
+#include <future>
+#include <thread>
+#include <vector>
 
 OctreeNode::OctreeNode(const AABB &bounds, int depth) : bounds(bounds), isLeaf(false), depth(depth)
 {
@@ -13,14 +16,6 @@ OctreeNode::~OctreeNode()
         delete children[i];
 }
 
-OctreeNode *buildOctree(
-    const std::vector<Triangle> &triangles,
-    const AABB &bounds,
-    int depth,
-    int maxDepth,
-    int *nodeCount,
-    int *pruneCount);
-
 // memotong node kubus jadi 8 node anak kubus
 static std::vector<AABB> subdivide(const AABB &box)
 {
@@ -33,7 +28,7 @@ static std::vector<AABB> subdivide(const AABB &box)
         {{center.x, min.y, min.z}, {max.x, center.y, center.z}},
         {{min.x, center.y, min.z}, {center.x, max.y, center.z}},
         {{center.x, center.y, min.z}, {max.x, max.y, center.z}},
-        {{min.x, min.y, center.x}, {center.x, center.y, max.z}},
+        {{min.x, min.y, center.z}, {center.x, center.y, max.z}},
         {{center.x, min.y, center.z}, {max.x, center.y, max.z}},
         {{min.x, center.y, center.z}, {center.x, max.y, max.z}},
         {center, max}};
@@ -44,8 +39,8 @@ OctreeNode *buildOctree(
     const AABB &bounds,
     int depth,
     int maxDepth,
-    int *nodeCount,
-    int *pruneCount)
+    std::atomic<int> *nodeCount,
+    std::atomic<int> *pruneCount)
 {
     nodeCount[depth]++;
 
@@ -81,16 +76,60 @@ OctreeNode *buildOctree(
     std::vector<AABB> childBounds = subdivide(bounds);
     // conquer: setiap anak diselesaikan secara independen
     // nullptr berarti anak tersebut adalah ruang kosong (pruned)
-    for (int i = 0; i < 8; i++)
-    {
-        node->children[i] = buildOctree(
-            triangles,
-            childBounds[i],
-            depth + 1,
-            maxDepth,
-            nodeCount,
-            pruneCount);
+
+    std::vector<std::future<OctreeNode*>> futures(8);
+
+
+    for (int i = 0; i < 8; i++) {
+        if (depth < 2 && depth < maxDepth - 1)
+        {
+            futures[i] = std::async(std::launch::async, [=, &triangles, &nodeCount, &pruneCount]()
+                                    {
+                std::vector<Triangle> childTriangles;
+                for (const auto &tri : triangles)
+                {
+                    if (triangleIntersectsAABB(tri, childBounds[i]))
+                    {
+                        childTriangles.push_back(tri);
+                    }
+                }
+                return buildOctree(
+                    childTriangles,
+                    childBounds[i],
+                    depth + 1,
+                    maxDepth,
+                    nodeCount,
+                    pruneCount); });
+        }
+        else
+        {
+            std::vector<Triangle> childTriangles;
+            for (const auto &tri : triangles)
+            {
+                if (triangleIntersectsAABB(tri, childBounds[i]))
+                {
+                    childTriangles.push_back(tri);
+                }
+            }
+            node->children[i] = buildOctree(
+                childTriangles,
+                childBounds[i],
+                depth + 1,
+                maxDepth,
+                nodeCount,
+                pruneCount
+            );
+        }
     }
+
+    // mengumpulkan hasil futures (hanya thread yang dibuat)
+    for (int i = 0; i < 8; i++) {
+        if (depth < 2 && depth < maxDepth - 1)
+        {
+            node->children[i] = futures[i].get(); // Get the result of async calls
+        }
+    }
+
 
     return node;
 }
