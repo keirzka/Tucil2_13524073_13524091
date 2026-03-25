@@ -57,8 +57,8 @@ int main()
               << " (should equal " << sideY
               << " and " << sideZ << ")\n";
 
-    std::vector<std::atomic<int>> nodeCount(maxDepth + 1, 0);
-    std::vector<std::atomic<int>> pruneCount(maxDepth + 1, 0);
+    std::vector<std::atomic<int>> nodeCount(maxDepth + 1);
+    std::vector<std::atomic<int>> pruneCount(maxDepth + 1);
 
     // Start Timer
     auto start = std::chrono::high_resolution_clock::now();
