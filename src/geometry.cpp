@@ -1,4 +1,5 @@
 #include "geometry.hpp"
+#include <cmath>
 
 AABB computeBounds(const std::vector<vec3> &vertices)
 {
