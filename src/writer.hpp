@@ -1,3 +1,4 @@
+#pragma once
 #include "octree.hpp"
 #include <array>
 #include <fstream>

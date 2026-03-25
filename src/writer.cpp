@@ -1,7 +1,5 @@
 #include "writer.hpp"
 
-using namespace std;
-
 // Mengumpulkan semua nodes leaf daro octree
 void collectLeafNodes(OctreeNode* node, std::vector<OctreeNode*>& leaves) {
     if (!node) return;
@@ -17,7 +15,8 @@ void collectLeafNodes(OctreeNode* node, std::vector<OctreeNode*>& leaves) {
 }
 
 // Membuat 8 vertex dari AABB
-vector<vec3> generateCubeVertices(const AABB& box) {
+std::vector<vec3> generateCubeVertices(const AABB &box)
+{
     vec3 min = box.min;
     vec3 max = box.max;
 
@@ -34,7 +33,8 @@ vector<vec3> generateCubeVertices(const AABB& box) {
 }
 
 // Membuat 12 face triangle dari kubus
-vector<array<int, 3>> generateCubeFaces(int offset) {
+std::vector<std::array<int, 3>> generateCubeFaces(int offset)
+{
     return {
         {offset+1, offset+2, offset+3}, {offset+2, offset+4, offset+3},
         {offset+5, offset+6, offset+7}, {offset+6, offset+8, offset+7},
@@ -46,24 +46,26 @@ vector<array<int, 3>> generateCubeFaces(int offset) {
 }
 
 // Write to file objek
-void writeOBJ(const std::string& filename, const vector<OctreeNode*>& leaves) {
-    ofstream file(filename);
+void writeOBJ(const std::string &filename, const std::vector<OctreeNode *> &leaves)
+{
+    std::ofstream file(filename);
 
     int vertexOffset = 0;
 
     for (OctreeNode* node : leaves) {
 
-        vector<vec3> vertices = generateCubeVertices(node->bounds);
+        std::vector<vec3> vertices = generateCubeVertices(node->bounds);
 
         // tulis vertex
         for (vec3 v : vertices) {
             file << "v " << v.x << " " << v.y << " " << v.z << "\n";
         }
 
-        vector<array<int, 3>> faces = generateCubeFaces(vertexOffset);
+        std::vector<std::array<int, 3>> faces = generateCubeFaces(vertexOffset);
 
         // tulis face
-        for (array<int, 3> f : faces) {
+        for (std::array<int, 3> f : faces)
+        {
             file << "f " << f[0] << " " << f[1] << " " << f[2] << "\n";
         }
 
