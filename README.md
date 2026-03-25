@@ -1,4 +1,4 @@
-#Deskripsi Program
+# Deskripsi Program
 Program ini merupakan implementasi algoritma Divide and Conquer untuk melakukan voxelization objek 3D berbasis file .obj dengan memanfaatkan struktur data octree.
 
 Input berupa file .obj yang berisi:
@@ -7,7 +7,6 @@ v x y z → vertex (titik 3D)
 f i j k → face (segitiga)
 
 Program akan:
-
 1. Membaca dan memvalidasi file .obj
 2. Menghitung Axis-Aligned Bounding Box (AABB) dari objek
 3. Membangun struktur octree secara rekursif
@@ -18,31 +17,33 @@ Program akan:
 
 Sebagai optimasi, program juga mengimplementasikan concurrency (multithreading) menggunakan std::async untuk mempercepat proses subdivisi octree.
 
-#Requirement Program
+# Requirement Program
 Bahasa & Compiler
 C++ (minimal C++11, disarankan C++17)
 Compiler:
 GCC / G++ (MinGW / Linux / WSL)
 🔹 Library yang Digunakan
 Standard C++ Library:
+```
 <vector>
 <iostream>
 <fstream>
 <chrono>
-<future> (untuk concurrency)
+<future>
+```
 🔹 Sistem Operasi
 Windows (MinGW / PowerShell / CMD)
 Linux / WSL (opsional)
 
-#Cara Kompilasi Program
+# Cara Kompilasi Program
 Jalankan perintah berikut di terminal pada folder src:
 
-'''g++ -std=c++17 -pthread -o voxelizer main.cpp geometry.cpp octree.cpp parser.cpp w
+```g++ -std=c++17 -pthread -o voxelizer main.cpp geometry.cpp octree.cpp parser.cpp w```
 
-#Cara Menjalankan Program
+# Cara Menjalankan Program
 Format perintah:
 
-./voxelizer
+```./voxelizer```
 
 Berikan masukan nama file objek yang akan dilakukan voxelization dengan format objek (.obj) dan maxDepth sesuai permintaan program
 
