@@ -111,7 +111,7 @@ int main()
     std::cout << std::endl;
 
     std::cout << "Statistik Node Octree Pruned : " << std::endl;
-    for (int i = 0; i < maxDepth; i++)
+    for (int i = 0; i <= maxDepth; i++)
     {
         std::cout << "Depth-" << i << " : " << pruneCount[i] << " node pruned" << std::endl;
     }
