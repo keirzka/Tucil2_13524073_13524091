@@ -38,11 +38,11 @@ Linux / WSL (opsional)
 # Cara Kompilasi Program
 Jalankan perintah berikut di terminal pada folder src:
 
-```g++ -std=c++17 -pthread -o voxelizer main.cpp geometry.cpp octree.cpp parser.cpp w```
+```g++ -std=c++17 -pthread -o main main.cpp geometry.cpp octree.cpp parser.cpp w```
 
 # Cara Menjalankan Program
 Ketik command untuk run program utama:
-```./voxelizer```
+```./main```
 
 Berikan masukan nama file objek yang akan dilakukan voxelization dengan format objek (.obj) dan maxDepth sesuai permintaan program
 
