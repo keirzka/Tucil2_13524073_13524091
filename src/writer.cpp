@@ -1,4 +1,21 @@
 #include "writer.hpp"
+#include <algorithm>
+#include <iostream>
+
+bool compareVec3(const vec3 &a, const vec3 &b)
+{
+    if (a.x != b.x)
+        return a.x < b.x;
+    if (a.y != b.y)
+        return a.y < b.y;
+    return a.z < b.z;
+}
+
+// Fungsi komparator untuk mengecek kesamaan koordinat secara presisi
+bool equalVec3(const vec3 &a, const vec3 &b)
+{
+    return a.x == b.x && a.y == b.y && a.z == b.z;
+}
 
 // Mengumpulkan semua nodes leaf daro octree
 void collectLeafNodes(OctreeNode* node, std::vector<OctreeNode*>& leaves) {
@@ -33,30 +50,24 @@ std::vector<vec3> generateCubeVertices(const AABB &box)
 }
 
 // Membuat 12 face triangle dari kubus
-std::vector<std::array<int, 3>> generateCubeFaces(int offset)
+std::vector<std::array<int, 3>> generateCubeFaces(const int idx[8])
 {
-    int v1 = offset + 1, v2 = offset + 2, v3 = offset + 3, v4 = offset + 4;
-    int v5 = offset + 5, v6 = offset + 6, v7 = offset + 7, v8 = offset + 8;
+    int v1 = idx[0], v2 = idx[1], v3 = idx[2], v4 = idx[3];
+    int v5 = idx[4], v6 = idx[5], v7 = idx[6], v8 = idx[7];
 
     return {
-        // Face Bawah (-Z)
-        {v1, v3, v2},
-        {v2, v3, v4},
-        // Face Atas (+Z)
+        {v1, v3, v2}, {v2, v3, v4}, // Bawah
         {v5, v6, v7},
-        {v6, v8, v7},
-        // Face Kiri (-X)
+        {v6, v8, v7}, // Atas
         {v1, v5, v3},
-        {v3, v5, v7},
-        // Face Kanan (+X)
+        {v3, v5, v7}, // Kiri
         {v2, v4, v6},
-        {v4, v8, v6},
-        // Face Depan (-Y)
+        {v4, v8, v6}, // Kanan
         {v1, v2, v5},
-        {v2, v6, v5},
-        // Face Belakang (+Y)
+        {v2, v6, v5}, // Depan
         {v3, v7, v4},
-        {v4, v7, v8}};
+        {v4, v7, v8} // Belakang
+    };
 }
 
 // Write to file objek
@@ -64,26 +75,54 @@ void writeOBJ(const std::string &filename, const std::vector<OctreeNode *> &leav
 {
     std::ofstream file(filename);
 
-    int vertexOffset = 0;
+    // Perbaikan Pengecekan File
+    if (!file.is_open())
+    {
+        std::cerr << "Error: Tidak dapat membuka atau membuat file " << filename << "\n";
+        return;
+    }
 
-    for (OctreeNode* node : leaves) {
+    std::vector<vec3> allVertices;
 
+    // Kumpulkan semua vertex
+    for (OctreeNode *node : leaves)
+    {
         std::vector<vec3> vertices = generateCubeVertices(node->bounds);
+        allVertices.insert(allVertices.end(), vertices.begin(), vertices.end());
+    }
 
-        // tulis vertex
-        for (vec3 v : vertices) {
-            file << "v " << v.x << " " << v.y << " " << v.z << "\n";
+    // Deduplikasi menggunakan sorting
+    std::vector<vec3> uniqueVertices = allVertices;
+    sort(uniqueVertices.begin(), uniqueVertices.end(), compareVec3);
+    auto last = unique(uniqueVertices.begin(), uniqueVertices.end(), equalVec3);
+    uniqueVertices.erase(last, uniqueVertices.end());
+
+    // Tulis daftar vertex unik ke file (.obj)
+    for (const vec3 &v : uniqueVertices)
+    {
+        file << "v " << v.x << " " << v.y << " " << v.z << "\n";
+    }
+
+    // Pencarian indeks menggunakan Binary Search
+    for (OctreeNode *node : leaves)
+    {
+        std::vector<vec3> vertices = generateCubeVertices(node->bounds);
+        int currentIndices[8];
+
+        for (int i = 0; i < 8; i++)
+        {
+            // Cari posisi vertex di array unik yang sudah terurut
+            auto it = lower_bound(uniqueVertices.begin(), uniqueVertices.end(), vertices[i], compareVec3);
+
+            // Format .obj menggunakan indeks berbasis 1 (bukan 0)
+            currentIndices[i] = distance(uniqueVertices.begin(), it) + 1;
         }
 
-        std::vector<std::array<int, 3>> faces = generateCubeFaces(vertexOffset);
-
-        // tulis face
-        for (std::array<int, 3> f : faces)
+        std::vector<std::array<int, 3>> faces = generateCubeFaces(currentIndices);
+        for (const auto &f : faces)
         {
             file << "f " << f[0] << " " << f[1] << " " << f[2] << "\n";
         }
-
-        vertexOffset += 8;
     }
 
     file.close();
