@@ -30,15 +30,27 @@ Standard C++ Library:
 <fstream>
 <chrono>
 <future>
+<algorithm>
+<atomic>
+<limits>
 ```
+Graphics Library:
+Raylib
 🔹 Sistem Operasi  
 Windows (MinGW / PowerShell / CMD)  
 Linux / WSL (opsional)  
 
+# Prasyarat Instalasi (Windows)
+Agar 3D Viewer bisa dipakai, siapkan library Raylib:
+1. Unduh raylib-5.0_win64_mingw-w64.zip (atau versi terbaru) dari GitHub Releases Raylib
+2. Ekstrak isi file .zip ke direktori utama C:\
+3. Ubah nama folder hasil ekstrak menjadi raylib
+4. Jika menggunakan VS Code, tambahkan C:\raylib\include ke dalam Include Path pada konfigurasi C/C++.
+
 # Cara Kompilasi Program
 Jalankan perintah berikut di terminal pada folder src:
 
-```g++ -std=c++17 -pthread -o main main.cpp geometry.cpp octree.cpp parser.cpp w```
+``` g++ -std=c++17 main.cpp parser.cpp geometry.cpp octree.cpp writer.cpp viewer.cpp -o voxelizer.exe -I C:/raylib/include -L C:/raylib/lib -lraylib -lopengl32 -lgdi32 -lwinmm```
 
 # Cara Menjalankan Program
 Ketik command untuk run program utama:
@@ -53,6 +65,6 @@ Notes : pastikan file objek berada di path yang benar (test/Objek)
    Nama : Keisha Rizka Syofyani  
    NIM : 13524073
    
-3. Anggota 2  
+2. Anggota 2  
    Nama : Vara Azzara Ramli Pulukadang  
    NIM : 13524091  
