@@ -38,7 +38,7 @@ Linux / WSL (opsional)
 # Cara Kompilasi Program
 Jalankan perintah berikut di terminal pada folder src:
 
-```g++ -std=c++17 -pthread -o voxelizer main.cpp geometry.cpp octree.cpp parser.cpp w```
+``` g++ -std=c++17 main.cpp parser.cpp geometry.cpp octree.cpp writer.cpp viewer.cpp -o voxelizer.exe -I C:/raylib/include -L C:/raylib/lib -lraylib -lopengl32 -lgdi32 -lwinmm```
 
 # Cara Menjalankan Program
 Ketik command untuk run program utama:
