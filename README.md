@@ -14,8 +14,9 @@ Program akan:
 5. Melakukan pruning pada area kosong
 6. Menghasilkan representasi voxel (kubus) dari objek
 7. Menyimpan hasil dalam file .obj baru
+8. Melihat hasil vokselisasi
 
-Sebagai optimasi, program juga mengimplementasikan concurrency (multithreading) menggunakan std::async untuk mempercepat proses subdivisi octree.
+Sebagai optimasi, program juga mengimplementasikan concurrency (multithreading) menggunakan std::async untuk mempercepat proses subdivisi octree, serta implementasi object viewer sederhana menggunakan library Raylib.
 
 # Requirement Program
 Bahasa & Compiler  
@@ -35,22 +36,24 @@ Standard C++ Library:
 <limits>
 ```
 Graphics Library:
+```
 Raylib
+```
 🔹 Sistem Operasi  
 Windows (MinGW / PowerShell / CMD)  
 Linux / WSL (opsional)  
 
 # Prasyarat Instalasi (Windows)
 Agar 3D Viewer bisa dipakai, siapkan library Raylib:
-1. Unduh raylib-5.0_win64_mingw-w64.zip (atau versi terbaru) dari GitHub Releases Raylib
-2. Ekstrak isi file .zip ke direktori utama C:\
+1. Unduh ```raylib-5.0_win64_mingw-w64.zip``` (atau versi terbaru) dari GitHub Releases Raylib
+2. Ekstrak isi file ```.zip``` ke direktori utama ```C:\```
 3. Ubah nama folder hasil ekstrak menjadi raylib
-4. Jika menggunakan VS Code, tambahkan C:\raylib\include ke dalam Include Path pada konfigurasi C/C++.
+4. Jika menggunakan VS Code, tambahkan ```C:\raylib\include``` ke dalam Include Path pada konfigurasi C/C++.
 
 # Cara Kompilasi Program
 Jalankan perintah berikut di terminal pada folder src:
 
-``` g++ -std=c++17 main.cpp parser.cpp geometry.cpp octree.cpp writer.cpp viewer.cpp -o voxelizer.exe -I C:/raylib/include -L C:/raylib/lib -lraylib -lopengl32 -lgdi32 -lwinmm```
+```g++ -std=c++17 main.cpp parser.cpp geometry.cpp octree.cpp writer.cpp viewer.cpp -o voxelizer.exe -I C:/raylib/include -L C:/raylib/lib -lraylib -lopengl32 -lgdi32 -lwinmm```
 
 # Cara Menjalankan Program
 Ketik command untuk run program utama:
@@ -58,7 +61,7 @@ Ketik command untuk run program utama:
 
 Berikan masukan nama file objek yang akan dilakukan voxelization dengan format objek (.obj) dan maxDepth sesuai permintaan program
 
-Notes : pastikan file objek berada di path yang benar (test/Objek)
+Catatan: pastikan file objek berada di path yang benar (test/Objek)
 
 # Identitas Author
 1. Anggota 1  
