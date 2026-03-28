@@ -87,10 +87,38 @@ void runViewer(const std::vector<OctreeNode *> &leaves)
     camera.projection = CAMERA_PERSPECTIVE;
 
     SetTargetFPS(60);
-
+    float yaw = 45.0f;          // rotasi horizontal
+    float pitch = 30.0f;        // rotasi vertikal
+    float dist = radius * 2.8f; // jarak kamera dari target
     while (!WindowShouldClose())
     {
-        UpdateCamera(&camera, CAMERA_ORBITAL);
+        // Rotasi: klik tahan mouse kiri + drag
+        if (IsMouseButtonDown(MOUSE_BUTTON_LEFT))
+        {
+            Vector2 delta = GetMouseDelta();
+            yaw -= delta.x * 0.3f;
+            pitch -= delta.y * 0.3f;
+
+            // Batasi pitch supaya tidak flip
+            if (pitch > 89.0f)
+                pitch = 89.0f;
+            if (pitch < -89.0f)
+                pitch = -89.0f;
+        }
+
+        // Zoom: scroll mouse
+        float wheel = GetMouseWheelMove();
+        dist -= wheel * dist * 0.1f;
+
+        // Hitung posisi kamera dari yaw, pitch, dist
+        float yawRad = yaw * DEG2RAD;
+        float pitchRad = pitch * DEG2RAD;
+
+        camera.position.x = cx + dist * cosf(pitchRad) * sinf(yawRad);
+        camera.position.y = cy + dist * sinf(pitchRad);
+        camera.position.z = cz + dist * cosf(pitchRad) * cosf(yawRad);
+        camera.target = Vector3{cx, cy, cz};
+
         BeginDrawing();
         ClearBackground(RAYWHITE);
         BeginMode3D(camera);
