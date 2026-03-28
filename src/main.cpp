@@ -28,7 +28,7 @@ int main()
     int maxDepth;
     while (true)
     {
-        std::cout << "Masukkan maximum depth octree : ";
+        std::cout << "Masukkan maximum depth octree: ";
 
         if (std::cin >> maxDepth && maxDepth >= 0)
         {
@@ -52,15 +52,16 @@ int main()
         return 1;
     }
 
-    std::cout << "Vertices  : " << parsed.vertices.size() << "\n";
-    std::cout << "Triangles : " << parsed.triangles.size() << "\n";
+    std::cout << "\n=============== STATISTIK MASUKAN OBJEK ===============\n";
+    std::cout << "Vertices: " << parsed.vertices.size() << "\n";
+    std::cout << "Triangles: " << parsed.triangles.size() << "\n";
 
     AABB bounds = computeBounds(parsed.vertices);
-    std::cout << "AABB min  : ("
+    std::cout << "AABB min: ("
               << bounds.min.x << ", "
               << bounds.min.y << ", "
               << bounds.min.z << ")\n";
-    std::cout << "AABB max  : ("
+    std::cout << "AABB max: ("
               << bounds.max.x << ", "
               << bounds.max.y << ", "
               << bounds.max.z << ")\n";
@@ -68,9 +69,7 @@ int main()
     float sideX = bounds.max.x - bounds.min.x;
     float sideY = bounds.max.y - bounds.min.y;
     float sideZ = bounds.max.z - bounds.min.z;
-    std::cout << "Cube side : " << sideX
-              << " (should equal " << sideY
-              << " and " << sideZ << ")\n";
+    std::cout << "Cube side: " << sideX << "\n";
 
     std::vector<std::atomic<int>> nodeCount(maxDepth + 1);
     std::vector<std::atomic<int>> pruneCount(maxDepth + 1);
@@ -112,30 +111,29 @@ int main()
 
     writeOBJ(outputPath, leaves);
 
-    // ============ CLI Output ==============
     std::cout << "\n=============== HASIL VOXELIZATION OBJEK ===============\n";
-    std::cout << "Jumlah voxel yang terbentuk : " << voxelCount << " voxel" << std::endl;
-    std::cout << "Jumlah vertex yang terbentuk : " << vertexCount << " vertex" << std::endl;
-    std::cout << "Jumlah faces yang terbentuk : " << faceCount << " faces" << std::endl
+    std::cout << "Jumlah voxel yang terbentuk: " << voxelCount << " voxel" << std::endl;
+    std::cout << "Jumlah vertex yang terbentuk: " << vertexCount << " vertex" << std::endl;
+    std::cout << "Jumlah faces yang terbentuk: " << faceCount << " faces" << std::endl
               << std::endl;
-    std::cout << "Statistik Node Octree : " << std::endl;
+    std::cout << "Statistik Node Octree: " << std::endl;
     for (int i = 0; i <= maxDepth; i++){
-        std::cout << "Depth-" << i << " : " << nodeCount[i] << " node" << std::endl;
+        std::cout << "Depth-" << i << ": " << nodeCount[i] << " node" << std::endl;
     }
 
     std::cout << std::endl;
 
-    std::cout << "Statistik Node Octree Pruned : " << std::endl;
+    std::cout << "Statistik Node Octree Pruned: " << std::endl;
     for (int i = 0; i <= maxDepth; i++)
     {
-        std::cout << "Depth-" << i << " : " << pruneCount[i] << " node pruned" << std::endl;
+        std::cout << "Depth-" << i << ": " << pruneCount[i] << " node pruned" << std::endl;
     }
 
     std::cout << std::endl;
 
-    std::cout << "Kedalaman octree : " << maxDepth << std::endl;
-    std::cout << "Processing time : " << duration << " seconds" << std::endl;
-    std::cout << "Output objek berhasil disimpan pada file : " << outputPath << std::endl;
+    std::cout << "Kedalaman octree: " << maxDepth << std::endl;
+    std::cout << "Processing time: " << duration << " seconds" << std::endl;
+    std::cout << "Output objek berhasil disimpan pada file: " << outputPath << std::endl;
 
     char openViewer;
     std::cout << "\nBuka 3D Voxel Viewer? (y/n) : ";
