@@ -6,6 +6,7 @@
 #include <chrono>
 #include <atomic>
 #include <limits>
+#include "viewer.hpp"
 
 int main()
 {
@@ -136,6 +137,13 @@ int main()
     std::cout << "Processing time : " << duration << " seconds" << std::endl;
     std::cout << "Output objek berhasil disimpan pada file : " << outputPath << std::endl;
 
+    char openViewer;
+    std::cout << "\nBuka 3D Voxel Viewer? (y/n) : ";
+    std::cin >> openViewer;
+    if (openViewer == 'y' || openViewer == 'Y')
+    {
+        runViewer(leaves);
+    }
     delete root;
     return 0;
 }
