@@ -5,6 +5,7 @@
 #include "writer.hpp"
 #include <chrono>
 #include <atomic>
+#include <limits>
 
 int main()
 {
@@ -24,9 +25,22 @@ int main()
 
     // Input maxDepth
     int maxDepth;
-    std::cout << "Masukkan maximum depth octree : ";
-    std::cin >> maxDepth;
+    while (true)
+    {
+        std::cout << "Masukkan maximum depth octree : ";
 
+        if (std::cin >> maxDepth && maxDepth >= 0)
+        {
+            break;
+        }
+        else
+        {
+            std::cout << "Error: Input tidak valid! Masukkan angka bulat nonnegatif.\n\n";
+
+            std::cin.clear();                                                   // Matikan "lampu merah" error pada cin
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Buang sisa karakter aneh di buffer
+        }
+    }
 
     ParsedOBJ parsed;
     std::string errorMsg;
