@@ -65,9 +65,9 @@ Catatan: pastikan file objek berada di path yang benar (test/Objek)
 
 # Identitas Author
 1. Anggota 1  
-   Nama : Keisha Rizka Syofyani  
-   NIM : 13524073
+   Nama: Keisha Rizka Syofyani  
+   NIM: 13524073
    
 2. Anggota 2  
-   Nama : Vara Azzara Ramli Pulukadang  
-   NIM : 13524091  
+   Nama: Vara Azzara Ramli Pulukadang  
+   NIM: 13524091  
