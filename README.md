@@ -54,7 +54,7 @@ Jalankan perintah berikut di terminal pada folder src:
 
 # Cara Menjalankan Program
 Ketik command untuk run program utama:
-```./voxelizer```
+```./main```
 
 Berikan masukan nama file objek yang akan dilakukan voxelization dengan format objek (.obj) dan maxDepth sesuai permintaan program
 
